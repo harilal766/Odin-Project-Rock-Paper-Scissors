@@ -1,6 +1,7 @@
 
 
 function getComputerChoice() {
+    let computerChoice = "";
     const choiceOne = "Rock"; 
     const choiceTwo = "Paper";
     const choiceThree = "Scissors";
@@ -8,72 +9,68 @@ function getComputerChoice() {
     let choice = Math.floor(Math.random()* 3);
 
     if (choice === 0) {
-        return choiceOne;
+        computerChoice = choiceOne;
     }
     else if (choice === 1) {
-        return choiceTwo;
+        computerChoice = choiceTwo;
     }
     else {
-        return choiceThree;
+        computerChoice = choiceThree;
     }
+    console.log(`Computer Choice : ${computerChoice}`);
+    return computerChoice;
 
 }
 
-function getHumanChoice(){
-    let userChoice = prompt("Enter your choice");
-    return userChoice;
-}
 
 let humanScore = 0; let computerScore = 0;
-
-function playRound(humanScore,computerScore,humanSelection,computerSelection) {
-    
+function playRound(humanSelection) {
     /*
     This game is played in one round, and there are three three type of outcomes.,
     1. rock and paper
     2. paper and scissors
     3. scissors and rock
     */
+    let status = null;
+    console.log(`Human CHoice : ${humanSelection}`);
+    let computerSelection = getComputerChoice().toLowerCase();
 
-
-    /* make sure the game is not a tie */
-    if (humanSelection === computerSelection) {
-        console.log("Tie...")
+    if (humanSelection === computerSelection){
+        status = "Tie!!!";
     }
-    else {
+    else{
         if (
-            (humanSelection === "rock" && computerSelection === "scissors") || 
-            (humanSelection === "scissors" && computerSelection === "paper") || 
-            (humanSelection === "paper" && computerSelection === "rock")
-        ) {
+            (humanSelection === "rock" && computerSelection === "scissors")||
+            (humanSelection === "paper" && computerSelection === "rock") ||
+            (humanSelection === "scissors" && computerSelection === "paper")
+        ){
             humanScore += 1;
+            status = "Human won";
         }
         else{
-            computerScore += 1;
+            computerScore +=1;
+            status = "Computer Won";
         }
 
-        /* 
-        Winner announce code
-        This will be based on the score;
-
-        who has the greater score will be considered as winner.
-        */
-        if (humanScore > computerScore){
-            console.log(`You win, ${humanSelection} beats ${computerSelection}.`);
-        }
-        else {
-            console.log(`You lose, ${computerSelection} beats ${humanSelection}.`);
-        }
+        // find the choice which achieves 5 first
     }
-    
-
-    
-
-
+    if (status){
+        console.log(status);
+    }    
 }
 
-let humanSelection = getHumanChoice().toLowerCase();
-let computerSelection = getComputerChoice().toLowerCase();
 
 
-playRound(humanScore,computerScore,humanSelection,computerSelection)
+/* The game should start only once the button is clicked*/
+
+// find all the buttons
+const buttons = document.querySelectorAll("button");
+
+// add event listener for each button
+buttons.forEach(button => {
+    button.addEventListener("click",function(){
+        playRound(button.id);
+    });
+});
+
+
