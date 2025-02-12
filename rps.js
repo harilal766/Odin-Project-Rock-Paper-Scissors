@@ -23,7 +23,14 @@ function getComputerChoice() {
 }
 
 
+// initializations out of the loop
 let humanScore = 0; let computerScore = 0;
+
+let humanScoreDisplay = document.getElementById("humanScore");
+let computerScoreDisplay = document.getElementById("computerScore");
+
+let winner = document.getElementById("winnerTag");
+
 function playRound(humanSelection) {
     /*
     This game is played in one round, and there are three three type of outcomes.,
@@ -31,32 +38,38 @@ function playRound(humanSelection) {
     2. paper and scissors
     3. scissors and rock
     */
-    let status = null;
-    console.log(`Human CHoice : ${humanSelection}`);
+    let status = "";
+    console.log(`Human Choice : ${humanSelection}`);
     let computerSelection = getComputerChoice().toLowerCase();
 
-    if (humanSelection === computerSelection){
-        status = "Tie!!!";
+    // The moment someone scores 5, they should be displayed.
+    if ((humanScore === 5) || (computerScore === 5)) {
+        let winnerName = (humanScore === 5) ? "Human" : "Computer"; 
+        winner.textContent = `${winnerName} Won this time!!!`;
+        return ;
     }
-    else{
-        if (
-            (humanSelection === "rock" && computerSelection === "scissors")||
-            (humanSelection === "paper" && computerSelection === "rock") ||
-            (humanSelection === "scissors" && computerSelection === "paper")
-        ){
-            humanScore += 1;
-            status = "Human won";
+    else {
+        if (humanSelection === computerSelection){
+            status = "Tie!!!";
         }
         else{
-            computerScore +=1;
-            status = "Computer Won";
-        }
-
-        // find the choice which achieves 5 first
+            if (
+                (humanSelection === "rock" && computerSelection === "scissors")||
+                (humanSelection === "paper" && computerSelection === "rock") ||
+                (humanSelection === "scissors" && computerSelection === "paper")
+            ){
+                humanScore += 1; 
+                humanScoreDisplay.textContent = humanScore;
+                status = "Human won";
+            }
+            else{
+                computerScore +=1; 
+                computerScoreDisplay.textContent = computerScore;
+                status = "Computer Won";
+            }
+            // find the choice which achieves 5 first
+        } 
     }
-    if (status){
-        console.log(status);
-    }    
 }
 
 
